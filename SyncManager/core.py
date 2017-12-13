@@ -11,7 +11,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import configparser
 from argparse import ArgumentParser
-from Libraries import PrintException, Loop
+from Libraries import Loop
 
 # Activation du logger principal
 try:
@@ -21,7 +21,7 @@ try:
     logger = logging.getLogger(__name__)
     logger.addHandler(handler)
 except:
-    PrintException("Impossible d'initialiser le fichier de logs.")
+    print("*"*10 + "Impossible d'initialiser le fichier de logs." + "*"*10)
     exit()
 
 # Récupération des variables de démarrage
@@ -38,7 +38,7 @@ try:
             'LoopTime':int(config.get('GENERAL', 'IntervalVerif')),
            }
 except:
-    PrintException("Fichier de configuration invalide ou introuvable. "
+    logger.error("Fichier de configuration invalide ou introuvable. "
                    "Pour rappel : core.py -c config.ini")
     exit()
 

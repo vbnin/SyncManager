@@ -18,12 +18,6 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s : %(message)s')
 logger = logging.getLogger(__name__)
 logger.addHandler(handler)
 
-# Définition de la fonction PrintException
-def PrintException(msg):
-    print("*" * 40)
-    print(msg)
-    print("*" * 40)
-
 def Loop(Data):
     logger.info("Scan des dossiers...")
     List = [f for f in os.listdir(Data['WatchFld2'])]
