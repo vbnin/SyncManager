@@ -6,6 +6,8 @@ Developeur : VBNIN - IPEchanges.
 Ce fichier est une librairie requise par le script core.py
 """
 
+import time
+import os
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -21,3 +23,15 @@ def PrintException(msg):
     print("*" * 40)
     print(msg)
     print("*" * 40)
+
+def Loop(Data):
+    logger.info("Scan des dossiers...")
+    List = [f for f in os.listdir(Data['WatchFld2'])]
+    for f in os.listdir(Data['WatchFld1']):
+        if f not in List:
+            f = os.path.join(Data['WatchFld1'], f)
+            os.remove(f)
+            logger.info("Fichier supprimé : %s" % f)
+        else:
+            pass
+    time.sleep(Data['LoopTime'])

@@ -6,9 +6,12 @@ Developeur : VBNIN - IPEchanges.
 Script de synchronisation spécifique entre deux PC
 """
 
+import os
 import logging
 from logging.handlers import RotatingFileHandler
-from Libraries import PrintException
+import configparser
+from argparse import ArgumentParser
+from Libraries import PrintException, Loop
 
 # Activation du logger principal
 try:
@@ -21,3 +24,23 @@ except:
     PrintException("Impossible d'initialiser le fichier de logs.")
     exit()
 
+# Récupération des variables de démarrage
+parser = ArgumentParser()
+parser.add_argument("-c", "--config", dest="config", help="Fichier config.ini")
+args = parser.parse_args()
+
+# Lecture du fichier de Configuration et attribution des variables
+try:
+    config = configparser.ConfigParser()
+    config.read(args.config)
+    Data = {'WatchFld1':os.path.normpath(config.get('GENERAL', 'LocalWatchFolder')),
+            'WatchFld2':os.path.normpath(config.get('GENERAL', 'RemoteWatchFolder')),
+            'LoopTime':int(config.get('GENERAL', 'IntervalVerif')),
+           }
+except:
+    PrintException("Fichier de configuration invalide ou introuvable. "
+                   "Pour rappel : core.py -c config.ini")
+    exit()
+
+while True:
+    Loop(Data)
